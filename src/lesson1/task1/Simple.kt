@@ -116,6 +116,7 @@ fun thirdDigit(number: Int): Int {
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
+    // Firstly, change everything into minutes
     var timeDepart = minutesDepart + hoursDepart * 60
     var timeArrive = minutesArrive + hoursArrive * 60
     return timeArrive - timeDepart
