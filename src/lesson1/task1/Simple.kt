@@ -99,14 +99,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double =
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int {
-
-    // a copy of "number" for us to change
-    var num = number
-    num /= 100
-
-    return ((num / 10.0 - floor(num / 10.0)) * 10).roundToInt()
-}
+fun thirdDigit(number: Int): Int = (number / 100) % 10
 
 /**
  * Простая
@@ -144,16 +137,11 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  */
 fun numberRevert(number: Int): Int {
 
-    // a copy of "number" for us to change
-    var num = number
+    var first = number % 10
 
-    var first = ((num / 10.0 - floor(num / 10.0)) * 10).roundToInt()
-    num /= 10
+    var second = (number / 10) % 10
 
-    var second = ((num / 10.0 - floor(num / 10.0)) * 10).roundToInt()
-    num /= 10
-
-    var third = ((num / 10.0 - floor(num / 10.0)) * 10).roundToInt()
+    var third = (number / 100) % 10
 
     return first * 100 + second * 10 + third
 }
