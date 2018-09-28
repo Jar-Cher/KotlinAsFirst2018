@@ -48,23 +48,20 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  */
 fun daysInMonth(month: Int, year: Int): Int {
 
-    var leap = false
-    if ((((year % 4) == 0) && ((year % 100) != 0)) || ((year % 400) == 0))
-        leap = true
+    val leap = ((((year % 4) == 0) && ((year % 100) != 0)) || ((year % 400) == 0))
 
-    return when {
-        month == 1 -> 31
-        (month == 2) && (leap) -> 29
-        (month == 2) && (!leap) -> 28
-        month == 3 -> 31
-        month == 4 -> 30
-        month == 5 -> 31
-        month == 6 -> 30
-        month == 7 -> 31
-        month == 8 -> 31
-        month == 9 -> 30
-        month == 10 -> 31
-        month == 11 -> 30
+    return when (month){
+        1 -> 31
+        2 -> if (leap) 29 else 28
+        3 -> 31
+        4 -> 30
+        5 -> 31
+        6 -> 30
+        7 -> 31
+        8 -> 31
+        9 -> 30
+        10 -> 31
+        11 -> 30
         else -> 31
     }
 }
@@ -92,10 +89,14 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val length = max(a, max(b, c))
-    return when (length) {
-        a -> (max(b, c) <= max(r, s)) && ((min(b, c) <= min(r, s)))
-        b -> (max(a, c) <= max(r, s)) && ((min(a, c) <= min(r, s)))
-        else -> (max(a, b) <= max(r, s)) && ((min(a, b) <= min(r, s)))
+    val wBrick = min(a, min(b, c))
+    val lBrick = max(a, max(b, c))
+    val tBrick = when {
+        (a != wBrick) && (a != lBrick) -> a
+        (b != wBrick) && (b != lBrick) -> b
+        else -> c
     }
+    val wHole = min(r, s)
+    val lHole = max(r, s)
+    return (wBrick <= wHole) && (tBrick <= lHole)
 }

@@ -110,8 +110,8 @@ fun thirdDigit(number: Int): Int = (number / 100) % 10
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
     // Firstly, change everything into minutes
-    var timeDepart = minutesDepart + hoursDepart * 60
-    var timeArrive = minutesArrive + hoursArrive * 60
+    val timeDepart = minutesDepart + hoursDepart * 60
+    val timeArrive = minutesArrive + hoursArrive * 60
     return timeArrive - timeDepart
 }
 
@@ -123,10 +123,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    var multiplier = (percent + 100.0) / 100.0
-    var currentAccount = initial * multiplier
-    currentAccount *= multiplier
-    return currentAccount * multiplier
+    val multiplier = (percent + 100.0) / 100.0
+    return initial * multiplier * multiplier * multiplier
 }
 
 /**
@@ -136,12 +134,8 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int {
-
-    var first = number % 10
-
-    var second = (number / 10) % 10
-
-    var third = (number / 100) % 10
-
+    val first = number % 10
+    val second = (number / 10) % 10
+    val third = (number / 100) % 10
     return first * 100 + second * 10 + third
 }

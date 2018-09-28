@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -66,12 +67,12 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     val lastNum = age % 10
-    return if ((lastNum == 1) && (age != 11) && (age != 111)){
-        "$age год"
-    } else if ((lastNum >= 2) && (lastNum <= 4) && (((age < 12) || (age > 14)) && ((age < 112) || (age > 114)))) {
-        "$age года"
-    } else
-        "$age лет"
+    val lastTwoNumbs = age % 100
+    return when {
+        (lastNum == 1) && (lastTwoNumbs != 11) -> "$age год"
+        (lastNum >= 2) && (lastNum <= 4) && ((lastTwoNumbs < 12) || (lastTwoNumbs > 14)) -> "$age года"
+        else -> "$age лет"
+    }
 }
 
 /**
@@ -88,12 +89,11 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s2 = t2 * v2
     val s3 = t3 * v3
     val l = (s1 + s2 + s3) / 2
-    return if (l <= s1) {
-        l / v1
-    } else if ((l > s1) && ((l <= (s1 + s2)))) {
-        (l - s1) / v2 + t1
-    } else
-        (l - s1 - s2) / v3 + t1 + t2
+    return when {
+        l <= s1 -> l / v1
+        (l > s1) && ((l <= (s1 + s2))) -> (l - s1) / v2 + t1
+        else -> (l - s1 - s2) / v3 + t1 + t2
+    }
 }
 
 /**
@@ -108,15 +108,18 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    var threat = 0
+    var rookOneThreat = false
+    var rookTwoThreat = false
     if ((kingX == rookX1) || (kingY == rookY1))
-        threat = 1
+        rookOneThreat = true
     if ((kingX == rookX2) || (kingY == rookY2))
-        threat = if (threat == 0)
-            2
-        else
-            3
-    return threat
+        rookTwoThreat = true
+    return when {
+        rookOneThreat && rookTwoThreat -> 3
+        !rookOneThreat && rookTwoThreat -> 2
+        rookOneThreat && !rookTwoThreat -> 1
+        else -> 0
+    }
 }
 
 /**
@@ -132,15 +135,18 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    var threat = 0
+    var rookThreat = false
+    var bishopThreat = false
     if ((kingX == rookX) || (kingY == rookY))
-        threat = 1
+        rookThreat = true
     if (abs(kingX - bishopX) == abs(kingY - bishopY))
-        threat = if (threat == 0)
-            2
-        else
-            3
-    return threat
+        bishopThreat = true
+    return when {
+        rookThreat && bishopThreat -> 3
+        !rookThreat && bishopThreat -> 2
+        rookThreat && !bishopThreat -> 1
+        else -> 0
+    }
 }
 
 /**
@@ -152,14 +158,19 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    return if (((a + b) < c) || ((a + c) < b) || ((b + c) < a))
-        -1
-    else if (((a * a + b * b) == (c * c)) || ((a * a + c * c) == (b * b)) || ((b * b + c * c) == (a * a)))
-        1
-    else if (((a * a + b * b) > (c * c)) && ((a * a + c * c) > (b * b)) && ((b * b + c * c) > (a * a)))
-        0
-    else
-        2
+    val lSide = max(a, max(b, c))
+    val sSide = min(a, min(b, c))
+    val mSide = when {
+        ((a != lSide) && (a != sSide)) -> a
+        ((b != lSide) && (b != sSide)) -> b
+        else -> c
+    }
+    return when {
+        (sSide + mSide) < lSide -> -1
+        (sSide * sSide + mSide * mSide) == (lSide * lSide) -> 1
+        (sSide * sSide + mSide * mSide) < (lSide * lSide) -> 2
+        else -> 0
+    }
 }
 
 /**
@@ -170,9 +181,8 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return if ((d < a) || (b < c))
-        -1
-    else
-        min(b, d) - max(a, c)
-}
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
+        if ((d < a) || (b < c))
+            -1
+        else
+            min(b, d) - max(a, c)
