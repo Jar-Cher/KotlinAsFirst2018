@@ -92,8 +92,8 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val wBrick = min(a, min(b, c))
     val lBrick = max(a, max(b, c))
     val tBrick = when {
-        (a != wBrick) && (a != lBrick) -> a
-        (b != wBrick) && (b != lBrick) -> b
+        ((a != wBrick) && (a != lBrick)) || (a == b) || (a == c) -> a
+        ((b != wBrick) && (b != lBrick)) || (a == b) || (a == c) -> b
         else -> c
     }
     val wHole = min(r, s)

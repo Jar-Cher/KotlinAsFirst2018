@@ -161,8 +161,8 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val lSide = max(a, max(b, c))
     val sSide = min(a, min(b, c))
     val mSide = when {
-        ((a != lSide) && (a != sSide)) -> a
-        ((b != lSide) && (b != sSide)) -> b
+        (((a != lSide) && (a != sSide)) || (a == b) || (a == c)) -> a
+        (((b != lSide) && (b != sSide)) || (a == b) || (a == c)) -> b
         else -> c
     }
     return when {
