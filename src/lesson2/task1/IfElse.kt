@@ -70,7 +70,7 @@ fun ageDescription(age: Int): String {
     val lastTwoNumbs = age % 100
     return when {
         (lastNum == 1) && (lastTwoNumbs != 11) -> "$age год"
-        (lastNum >= 2) && (lastNum <= 4) && ((lastTwoNumbs < 12) || (lastTwoNumbs > 14)) -> "$age года"
+        (lastNum in 2..4) && ((lastTwoNumbs < 12) || (lastTwoNumbs > 14)) -> "$age года"
         else -> "$age лет"
     }
 }
@@ -108,16 +108,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    var rookOneThreat = false
-    var rookTwoThreat = false
-    if ((kingX == rookX1) || (kingY == rookY1))
-        rookOneThreat = true
-    if ((kingX == rookX2) || (kingY == rookY2))
-        rookTwoThreat = true
+    val rookOneThreat = (kingX == rookX1) || (kingY == rookY1)
+    val rookTwoThreat = (kingX == rookX2) || (kingY == rookY2)
     return when {
         rookOneThreat && rookTwoThreat -> 3
-        !rookOneThreat && rookTwoThreat -> 2
-        rookOneThreat && !rookTwoThreat -> 1
+        rookTwoThreat -> 2
+        rookOneThreat -> 1
         else -> 0
     }
 }
@@ -135,16 +131,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    var rookThreat = false
-    var bishopThreat = false
-    if ((kingX == rookX) || (kingY == rookY))
-        rookThreat = true
-    if (abs(kingX - bishopX) == abs(kingY - bishopY))
-        bishopThreat = true
+    val rookThreat = (kingX == rookX) || (kingY == rookY)
+    val bishopThreat = abs(kingX - bishopX) == abs(kingY - bishopY)
     return when {
         rookThreat && bishopThreat -> 3
-        !rookThreat && bishopThreat -> 2
-        rookThreat && !bishopThreat -> 1
+        bishopThreat -> 2
+        rookThreat -> 1
         else -> 0
     }
 }

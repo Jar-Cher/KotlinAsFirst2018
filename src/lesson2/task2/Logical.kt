@@ -50,18 +50,10 @@ fun daysInMonth(month: Int, year: Int): Int {
 
     val leap = ((((year % 4) == 0) && ((year % 100) != 0)) || ((year % 400) == 0))
 
-    return when (month){
-        1 -> 31
+    return when (month) {
+        1, 3, 5, 7, 8, 10 -> 31
         2 -> if (leap) 29 else 28
-        3 -> 31
-        4 -> 30
-        5 -> 31
-        6 -> 30
-        7 -> 31
-        8 -> 31
-        9 -> 30
-        10 -> 31
-        11 -> 30
+        4, 6, 9, 11 -> 30
         else -> 31
     }
 }
@@ -92,8 +84,8 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val wBrick = min(a, min(b, c))
     val lBrick = max(a, max(b, c))
     val tBrick = when {
-        ((a != wBrick) && (a != lBrick)) || (a == b) || (a == c) -> a
-        ((b != wBrick) && (b != lBrick)) || (a == b) || (a == c) -> b
+        (a != wBrick && (a != lBrick)) || (a == b) || (a == c) -> a
+        (b != wBrick && (b != lBrick)) || (a == b) || (a == c) -> b
         else -> c
     }
     val wHole = min(r, s)
