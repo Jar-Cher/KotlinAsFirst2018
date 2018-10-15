@@ -150,13 +150,9 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val lSide = max(a, max(b, c))
-    val sSide = min(a, min(b, c))
-    val mSide = when {
-        (((a != lSide) && (a != sSide)) || (a == b) || (a == c)) -> a
-        (((b != lSide) && (b != sSide)) || (a == b) || (a == c)) -> b
-        else -> c
-    }
+    val lSide = maxOf(a, b, c)
+    val sSide = minOf(a, b, c)
+    val mSide = a + b + c - lSide - sSide
     return when {
         (sSide + mSide) < lSide -> -1
         (sSide * sSide + mSide * mSide) == (lSide * lSide) -> 1

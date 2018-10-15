@@ -239,4 +239,108 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun thousandsDescription(n: Int): String {
+    val lastNum = n % 10
+    val lastTwoNumbs = n % 100
+    return when {
+        (lastNum == 1) && (lastTwoNumbs != 11) -> "тысяча "
+        (lastNum in 2..4) && (lastTwoNumbs !in 12..14) -> "тысячи "
+        else -> "тысяч "
+    }
+}
+
+fun pronounce(n: String, isThousands: Boolean): String {
+    val l = n.length
+    val lastTwoNumbs: (String)
+    var ans = ""
+    if (l == 3) {
+        when (n[0]) {
+            '1' -> ans = "сто "
+            '2' -> ans = "двести "
+            '3' -> ans = "триста "
+            '4' -> ans = "четыреста "
+            '5' -> ans = "пятьсот "
+            '6' -> ans = "шестьсот "
+            '7' -> ans = "семьсот "
+            '8' -> ans = "восемьсот "
+            '9' -> ans = "девятьсот "
+        }
+    }
+
+    val lastNum = n[l - 1]
+    var lastNumEnabled = true
+
+    if (l > 1) {
+        lastNumEnabled = false
+        lastTwoNumbs = n.substring(l - 2, l)
+        when (lastTwoNumbs) {
+            "01" -> ans += if (isThousands) "одна " else "один "
+            "02" -> ans += if (isThousands) "две " else "два "
+            "03" -> ans += "три "
+            "04" -> ans += "четыре "
+            "05" -> ans += "пять "
+            "06" -> ans += "шесть "
+            "07" -> ans += "семь "
+            "08" -> ans += "восемь "
+            "09" -> ans += "девять "
+            "10" -> ans += "десять "
+            "11" -> ans += "одиннадцать "
+            "12" -> ans += "двенадцать "
+            "13" -> ans += "тренадцать "
+            "14" -> ans += "четырнадцать "
+            "15" -> ans += "пятнадцать "
+            "16" -> ans += "шестнадцать "
+            "17" -> ans += "семнадцать "
+            "18" -> ans += "восемнадцать "
+            "19" -> ans += "девятнадцать "
+            else -> lastNumEnabled = true
+        }
+
+        val secondNum = lastTwoNumbs[0]
+
+        if (lastNumEnabled) {
+            when (secondNum) {
+                '1' -> ans += "десять "
+                '2' -> ans += "двадцать "
+                '3' -> ans += "тридцать "
+                '4' -> ans += "сорок "
+                '5' -> ans += "пятьдесят "
+                '6' -> ans += "шестьдесят "
+                '7' -> ans += "семьдесят "
+                '8' -> ans += "восемьдесят "
+                '9' -> ans += "девяносто "
+            }
+        }
+    }
+
+    if (lastNumEnabled)
+        when (lastNum) {
+            '1' -> ans += if (isThousands) "одна " else "один "
+            '2' -> ans += if (isThousands) "две " else "два "
+            '3' -> ans += "три "
+            '4' -> ans += "четыре "
+            '5' -> ans += "пять "
+            '6' -> ans += "шесть "
+            '7' -> ans += "семь "
+            '8' -> ans += "восемь "
+            '9' -> ans += "девять "
+        }
+    return ans
+}
+
+fun russian(n: Int): String {
+    val inp = n.toString()
+    val l = inp.length
+    val thousands: (String)
+    val hundreds: (String)
+    val ans: (String)
+    if (l > 3) {
+        thousands = inp.substring(0, l - 3)
+        hundreds = inp.substring(l - 3, l)
+        ans = pronounce(thousands, true) + thousandsDescription(thousands.toInt()) + pronounce(hundreds, false)
+        return ans.substring(0, ans.length - 1)
+    } else {
+        ans = pronounce(inp, false)
+        return ans.substring(0, ans.length - 1)
+    }
+}

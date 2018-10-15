@@ -77,11 +77,10 @@ fun digitNumber(n: Int): Int = TODO()
 fun fib(n: Int): Int {
     var a = 1
     var b = 1
-    var k: (Int)
     if ((n == 1) || (n == 2))
         return 1
     for (i in 3..n) {
-        k = b
+        val k = b
         b += a
         a = k
     }
@@ -224,12 +223,11 @@ fun squareSequenceDigit(n: Int): Int {
         if (a > 0)
             i++
         else {
-            i *= i
             while (a < 0) {
-                i /= 10
+                sq /= 10
                 a++
             }
-            return i % 10
+            return sq % 10
         }
     }
 }
@@ -253,12 +251,11 @@ fun fibSequenceDigit(n: Int): Int {
         if (a > 0)
             i++
         else {
-            i = fib(i)
             while (a < 0) {
-                i /= 10
+                f /= 10
                 a++
             }
-            return i % 10
+            return f % 10
         }
     }
 }
