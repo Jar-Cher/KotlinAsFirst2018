@@ -252,18 +252,18 @@ fun thousandsDescription(n: Int): String {
 fun pronounce(n: String, isThousands: Boolean): String {
     val l = n.length
     val lastTwoNumbs: (String)
-    var ans = ""
+    val ans = StringBuilder()
     if (l == 3) {
         when (n[0]) {
-            '1' -> ans = "сто "
-            '2' -> ans = "двести "
-            '3' -> ans = "триста "
-            '4' -> ans = "четыреста "
-            '5' -> ans = "пятьсот "
-            '6' -> ans = "шестьсот "
-            '7' -> ans = "семьсот "
-            '8' -> ans = "восемьсот "
-            '9' -> ans = "девятьсот "
+            '1' -> ans.append("сто ")
+            '2' -> ans.append("двести ")
+            '3' -> ans.append("триста ")
+            '4' -> ans.append("четыреста ")
+            '5' -> ans.append("пятьсот ")
+            '6' -> ans.append("шестьсот ")
+            '7' -> ans.append("семьсот ")
+            '8' -> ans.append("восемьсот ")
+            '9' -> ans.append("девятьсот ")
         }
     }
 
@@ -274,25 +274,25 @@ fun pronounce(n: String, isThousands: Boolean): String {
         lastNumEnabled = false
         lastTwoNumbs = n.substring(l - 2, l)
         when (lastTwoNumbs) {
-            "01" -> ans += if (isThousands) "одна " else "один "
-            "02" -> ans += if (isThousands) "две " else "два "
-            "03" -> ans += "три "
-            "04" -> ans += "четыре "
-            "05" -> ans += "пять "
-            "06" -> ans += "шесть "
-            "07" -> ans += "семь "
-            "08" -> ans += "восемь "
-            "09" -> ans += "девять "
-            "10" -> ans += "десять "
-            "11" -> ans += "одиннадцать "
-            "12" -> ans += "двенадцать "
-            "13" -> ans += "тринадцать "
-            "14" -> ans += "четырнадцать "
-            "15" -> ans += "пятнадцать "
-            "16" -> ans += "шестнадцать "
-            "17" -> ans += "семнадцать "
-            "18" -> ans += "восемнадцать "
-            "19" -> ans += "девятнадцать "
+            "01" -> ans.append(if (isThousands) "одна " else "один ")
+            "02" -> ans.append(if (isThousands) "две " else "два ")
+            "03" -> ans.append("три ")
+            "04" -> ans.append("четыре ")
+            "05" -> ans.append("пять ")
+            "06" -> ans.append("шесть ")
+            "07" -> ans.append("семь ")
+            "08" -> ans.append("восемь ")
+            "09" -> ans.append("девять ")
+            "10" -> ans.append("десять ")
+            "11" -> ans.append("одиннадцать ")
+            "12" -> ans.append("двенадцать ")
+            "13" -> ans.append("тринадцать ")
+            "14" -> ans.append("четырнадцать ")
+            "15" -> ans.append("пятнадцать ")
+            "16" -> ans.append("шестнадцать ")
+            "17" -> ans.append("семнадцать ")
+            "18" -> ans.append("восемнадцать ")
+            "19" -> ans.append("девятнадцать ")
             else -> lastNumEnabled = true
         }
 
@@ -300,48 +300,46 @@ fun pronounce(n: String, isThousands: Boolean): String {
 
         if (lastNumEnabled) {
             when (secondNum) {
-                '1' -> ans += "десять "
-                '2' -> ans += "двадцать "
-                '3' -> ans += "тридцать "
-                '4' -> ans += "сорок "
-                '5' -> ans += "пятьдесят "
-                '6' -> ans += "шестьдесят "
-                '7' -> ans += "семьдесят "
-                '8' -> ans += "восемьдесят "
-                '9' -> ans += "девяносто "
+                '1' -> ans.append("десять ")
+                '2' -> ans.append("двадцать ")
+                '3' -> ans.append("тридцать ")
+                '4' -> ans.append("сорок ")
+                '5' -> ans.append("пятьдесят ")
+                '6' -> ans.append("шестьдесят ")
+                '7' -> ans.append("семьдесят ")
+                '8' -> ans.append("восемьдесят ")
+                '9' -> ans.append("девяносто ")
             }
         }
     }
 
     if (lastNumEnabled)
         when (lastNum) {
-            '1' -> ans += if (isThousands) "одна " else "один "
-            '2' -> ans += if (isThousands) "две " else "два "
-            '3' -> ans += "три "
-            '4' -> ans += "четыре "
-            '5' -> ans += "пять "
-            '6' -> ans += "шесть "
-            '7' -> ans += "семь "
-            '8' -> ans += "восемь "
-            '9' -> ans += "девять "
+            '1' -> ans.append(if (isThousands) "одна " else "один ")
+            '2' -> ans.append(if (isThousands) "две " else "два ")
+            '3' -> ans.append("три ")
+            '4' -> ans.append("четыре ")
+            '5' -> ans.append("пять ")
+            '6' -> ans.append("шесть ")
+            '7' -> ans.append("семь ")
+            '8' -> ans.append("восемь ")
+            '9' -> ans.append("девять ")
         }
-    return ans
+    return ans.toString()
 }
 
 fun russian(n: Int): String {
     val inp = n.toString()
     val l = inp.length
-    val thousands: (String)
-    val hundreds: (String)
     val ans: (String)
-    if (l > 3) {
-        thousands = inp.substring(0, l - 3)
-        hundreds = inp.substring(l - 3, l)
+    return if (l > 3) {
+        val thousands = inp.substring(0, l - 3)
+        val hundreds = inp.substring(l - 3, l)
         ans = pronounce(thousands, true) + thousandsDescription(thousands.toInt()) + pronounce(hundreds, false)
-        return ans.substring(0, ans.length - 1)
+        ans.substring(0, ans.length - 1)
     } else {
         ans = pronounce(inp, false)
-        return ans.substring(0, ans.length - 1)
+        ans.substring(0, ans.length - 1)
     }
 
 }

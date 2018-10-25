@@ -216,9 +216,8 @@ fun numLength(n: Int): Int {
 fun squareSequenceDigit(n: Int): Int {
     var a = n
     var i = 1
-    var sq: (Int)
     while (true) {
-        sq = i * i
+        var sq = i * i
         a -= numLength(sq)
         if (a > 0)
             i++
@@ -244,9 +243,8 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var a = n
     var i = 1
-    var f: (Int)
     while (true) {
-        f = fib(i)
+        var f = fib(i)
         a -= numLength(f)
         if (a > 0)
             i++
