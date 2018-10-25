@@ -283,6 +283,16 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     var maxVal = -1
     var ans = emptySet<String>()
     var posAns: Set<String>
+    var maxW = 0
+    val allTr = mutableSetOf<String>()
+    for ((name, info) in treasures) {
+        maxW += info.first
+        allTr += name
+    }
+    if (maxW < capacity) {
+        posAns = allTr
+        return posAns
+    }
     for ((name, info) in treasures) {
         if (capacity < info.first)
             continue
