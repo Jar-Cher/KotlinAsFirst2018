@@ -273,26 +273,23 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *   ) -> emptySet()
  */
 var costOfComb = mutableMapOf<Set<String>, Int>()
-var checked = mutableMapOf<Set<String>, Set<String>>()
+var checked = mutableMapOf<Map<String, Pair<Int, Int>>, Set<String>>()
 var depth = 0
 
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     if (depth == 0) {
         costOfComb.clear()
         checked.clear()
-        checked[emptySet()] = emptySet()
+        checked[emptyMap()] = emptySet()
         costOfComb[emptySet()] = 0
     }
     depth++
     var maxVal = -1
     var ans = emptySet<String>()
     var posAns: Set<String>
-    val allTr = mutableSetOf<String>()
-    for ((key) in treasures)
-        allTr.add(key)
-    if (allTr in checked) {
+    if (treasures in checked) {
         depth--
-        return checked[allTr]!!
+        return checked[treasures]!!
     }
     for ((name, info) in treasures) {
         if (capacity < info.first)
@@ -308,7 +305,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
             maxVal = curVal
         }
     }
-    checked[allTr] = ans
+    checked[treasures] = ans
     depth--
     return ans
 }
