@@ -294,10 +294,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     for ((name, info) in treasures) {
         if (capacity < info.first)
             continue
-        val curBag = mutableMapOf<String, Pair<Int, Int>>()
-        curBag.putAll(treasures)
-        curBag.remove(name)
-        posAns = bagPacking(curBag, capacity - info.first)
+        posAns = bagPacking(treasures - name, capacity - info.first)
         costOfComb[posAns + name] = costOfComb[posAns]!! + info.second
         val curVal = costOfComb[posAns + name]!!
         if (curVal > maxVal) {
