@@ -274,13 +274,6 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  */
 var costOfComb = mutableMapOf<Set<String>, Int>()
 
-fun costOfBag(bag: Set<String>, treasures: Map<String, Pair<Int, Int>>): Int {
-    var cost = 0
-    for (item in bag)
-        if (item in treasures)
-            cost += treasures[item]!!.second
-    return cost
-}
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     var maxVal = -1
     costOfComb[emptySet()] = 0
