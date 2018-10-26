@@ -285,16 +285,29 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     }
     depth++
     var maxVal = -1
+    var sumW = 0
+    var sumVal = 0
     var ans = emptySet<String>()
-    var posAns: Set<String>
+    var posAns = mutableSetOf<String>()
     if (treasures in checked) {
         depth--
         return checked[treasures]!!
     }
     for ((name, info) in treasures) {
+        sumW += info.first
+        sumVal += info.second
+        posAns.add(name)
+    }
+    if (sumW <= capacity) {
+        costOfComb[posAns] = sumVal
+        checked[treasures] = posAns
+        depth--
+        return posAns
+    }
+    for ((name, info) in treasures) {
         if (capacity < info.first)
             continue
-        posAns = bagPacking(treasures - name, capacity - info.first)
+        posAns = bagPacking(treasures - name, capacity).toMutableSet()
         costOfComb[posAns + name] = costOfComb[posAns]!! + info.second
         val curVal = costOfComb[posAns + name]!!
         if (curVal > maxVal) {
