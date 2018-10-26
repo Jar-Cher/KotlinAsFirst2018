@@ -288,6 +288,8 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     var ans = emptySet<String>()
     var posAns: Set<String>
     val allTr = mutableSetOf<String>()
+    for ((key) in treasures)
+        allTr.add(key)
     if (allTr in checked) {
         depth--
         return checked[allTr]!!
