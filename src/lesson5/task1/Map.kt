@@ -287,17 +287,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     var maxVal = -1
     var ans = emptySet<String>()
     var posAns: Set<String>
-    var maxW = 0
     val allTr = mutableSetOf<String>()
-    for ((name, info) in treasures) {
-        maxW += info.first
-        allTr += name
-    }
-    if (maxW < capacity) {
-        posAns = allTr
-        depth--
-        return posAns
-    }
     if (allTr in checked) {
         depth--
         return checked[allTr]!!
@@ -305,17 +295,15 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     for ((name, info) in treasures) {
         if (capacity < info.first)
             continue
-        else {
-            val curBag = mutableMapOf<String, Pair<Int, Int>>()
-            curBag.putAll(treasures)
-            curBag.remove(name)
-            posAns = bagPacking(curBag, capacity - info.first)
-            costOfComb[posAns + name] = costOfComb[posAns]!! + info.second
-            val curVal = costOfComb[posAns + name]!!
-            if (curVal > maxVal) {
-                ans = posAns + name
-                maxVal = curVal
-            }
+        val curBag = mutableMapOf<String, Pair<Int, Int>>()
+        curBag.putAll(treasures)
+        curBag.remove(name)
+        posAns = bagPacking(curBag, capacity - info.first)
+        costOfComb[posAns + name] = costOfComb[posAns]!! + info.second
+        val curVal = costOfComb[posAns + name]!!
+        if (curVal > maxVal) {
+            ans = posAns + name
+            maxVal = curVal
         }
     }
     checked[allTr] = ans
