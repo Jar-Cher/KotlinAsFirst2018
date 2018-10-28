@@ -272,47 +272,37 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *     450
  *   ) -> emptySet()
  */
-var costOfComb = mutableMapOf<Set<String>, Int>()
-var checked = mutableMapOf<Map<String, Pair<Int, Int>>, Set<String>>()
-var depth = 0
 
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    if (depth == 0) {
-        costOfComb.clear()
-        checked.clear()
-        checked[emptyMap()] = emptySet()
-        costOfComb[emptySet()] = 0
+    val combinations = mutableMapOf<Pair<Set<String>, Int>, Pair<Set<String>, Int>>()
+    val answers = mutableMapOf<Pair<Set<String>, Int>, Set<String>>()
+    for (i in 0..capacity) {
+        combinations[Pair(emptySet(), i)] = Pair(emptySet(), 0)
+        answers[Pair(emptySet(), i)] = emptySet()
     }
-    depth++
-    var maxVal = -1
-    var sumW = 0
-    var sumVal = 0
-    var ans = emptySet<String>()
-    var posAns = mutableSetOf<String>()
-    if (treasures in checked) {
-        depth--
-        return checked[treasures]!!
-    }
-    for ((name, info) in treasures) {
-        sumW += info.first
-        sumVal += info.second
-        posAns.add(name)
-    }
-    costOfComb[posAns] = sumVal
-    if (sumW <= capacity) {
-        checked[treasures] = posAns
-        depth--
-        return posAns
-    }
-    for ((name, _) in treasures) {
-        posAns = bagPacking(treasures - name, capacity).toMutableSet()
-        val curVal = costOfComb[posAns]!!
-        if (curVal > maxVal) {
-            ans = posAns
-            maxVal = curVal
+    val curList = mutableListOf<Set<String>>()
+    curList.add(emptySet())
+    var i = 0
+    for ((name) in treasures) {
+        curList.add(curList[i] + name)
+        i++
+        for (curCapacity in 0..capacity) {
+            if (treasures[name]!!.first > curCapacity) {
+                combinations[Pair(curList[i], curCapacity)] = combinations[Pair(curList[i - 1], curCapacity)]!!
+                answers[Pair(curList[i], curCapacity)] = answers[Pair(curList[i - 1], curCapacity)]!!
+            } else {
+                val prevValue = combinations[Pair(curList[i - 1], curCapacity)]!!
+                val possValue = combinations[Pair(curList[i - 1], curCapacity - treasures[name]!!.first)]!!
+                val possAns = Pair(possValue.first + name, possValue.second + treasures[name]!!.second)
+                if (possAns.second < prevValue.second) {
+                    combinations[Pair(curList[i], curCapacity)] = prevValue
+                    answers[Pair(curList[i], curCapacity)] = answers[Pair(curList[i - 1], curCapacity)]!!
+                } else {
+                    combinations[Pair(curList[i], curCapacity)] = possAns
+                    answers[Pair(curList[i], curCapacity)] = answers[Pair(curList[i - 1], curCapacity - treasures[name]!!.first)]!! + name
+                }
+            }
         }
     }
-    checked[treasures] = ans
-    depth--
-    return ans
+    return answers[Pair(curList[i], capacity)]!!
 }

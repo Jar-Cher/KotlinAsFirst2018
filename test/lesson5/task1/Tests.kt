@@ -314,6 +314,20 @@ class Tests {
     @Tag("Impossible")
     fun bagPacking() {
         assertEquals(
+                setOf("1"),
+                bagPacking(
+                        mapOf("0" to (2 to 40), "1" to (2 to 100)),
+                        2
+                )
+        )
+        assertEquals(
+                setOf("Кубок"),
+                bagPacking(
+                        mapOf("Кубок" to (10 to 40), "Слиток" to (20 to 100)),
+                        17
+                )
+        )
+        assertEquals(
                 setOf("Кубок"),
                 bagPacking(
                         mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
@@ -327,6 +341,30 @@ class Tests {
                         450
                 )
         )
+        assertEquals(
+                setOf("40", "33", "30", "29", "28", "24", "22", "19",
+                        "17", "16", "15", "11", "10", "9", "6", "5", "3", "1"),
+                bagPacking(mapOf("0" to (346 to 149), "1" to (148 to 478),
+                        "2" to (148 to 148), "3" to (1 to 237),
+                        "4" to (148 to 148), "5" to (2 to 1),
+                        "6" to (1 to 341), "7" to (497 to 170),
+                        "8" to (185 to 148), "9" to (2 to 2),
+                        "10" to (2 to 365), "11" to (1 to 455),
+                        "12" to (148 to 148), "13" to (444 to 103),
+                        "14" to (280 to 89), "15" to (38 to 328),
+                        "16" to (2 to 321), "17" to (2 to 258),
+                        "18" to (103 to 115), "19" to (1 to 226),
+                        "20" to (278 to 2), "21" to (286 to 149),
+                        "22" to (148 to 232), "23" to (304 to 149),
+                        "24" to (149 to 319), "25" to (149 to 2),
+                        "26" to (72 to 149), "27" to (474 to 32),
+                        "28" to (1 to 1), "29" to (112 to 194),
+                        "30" to (1 to 1), "31" to (129 to 149),
+                        "32" to (148 to 2), "33" to (148 to 467),
+                        "34" to (114 to 1), "35" to (490 to 423),
+                        "36" to (159 to 2), "37" to (34 to 2),
+                        "38" to (204 to 301), "39" to (149 to 1),
+                        "40" to (2 to 312)), 768))
     }
 
     // TODO: map task tests
