@@ -130,8 +130,7 @@ fun bestHighJump(jumps: String): Int {
                 if ((res[0] == '+') || (res[0] == '-'))
                     throw IllegalArgumentException("")
                 dist = res.toInt()
-            }
-            else {
+            } else {
                 var status = "ok"
                 for (i in res) {
                     if (status != "ok")
@@ -149,6 +148,8 @@ fun bestHighJump(jumps: String): Int {
             id++
         }
     } catch (e: NumberFormatException) {
+        return -1
+    } catch (err: StringIndexOutOfBoundsException) {
         return -1
     }
     return best
@@ -184,6 +185,8 @@ fun plusMinus(expression: String): Int {
             id++
         }
     } catch (e: NumberFormatException) {
+        throw IllegalArgumentException("")
+    } catch (err: StringIndexOutOfBoundsException) {
         throw IllegalArgumentException("")
     }
     return sum
