@@ -49,12 +49,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -121,7 +119,40 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val inp = jumps.split(" ")
+    var id = 0
+    var dist = 0
+    var best = -1
+    try {
+        for (res in inp) {
+            if ((id % 2) == 0) {
+                if ((res[0] == '+') || (res[0] == '-'))
+                    throw IllegalArgumentException("")
+                dist = res.toInt()
+            }
+            else {
+                var status = "ok"
+                for (i in res) {
+                    if (status != "ok")
+                        return -1
+                    status = when (i) {
+                        '%' -> "ok"
+                        '+' -> "good"
+                        '-' -> "bad"
+                        else -> return -1
+                    }
+                }
+                if ((status == "good") && (dist >= best))
+                    best = dist
+            }
+            id++
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return best
+}
 
 /**
  * Сложная
@@ -132,7 +163,31 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val inp = expression.split(" ")
+    var id = 0
+    var sum = 0
+    var act = "+"
+    try {
+        for (i in inp) {
+            if ((id % 2) == 0) {
+                if ((i[0] == '+') || (i[0] == '-'))
+                    throw IllegalArgumentException("")
+                val num = i.toInt()
+                when (act) {
+                    "+" -> sum += num
+                    "-" -> sum -= num
+                    else -> throw IllegalArgumentException("")
+                }
+            } else
+                act = i
+            id++
+        }
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException("")
+    }
+    return sum
+}
 
 /**
  * Сложная

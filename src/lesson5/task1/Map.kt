@@ -207,7 +207,16 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    val lowCasChars = mutableListOf<Char>()
+    for (i in chars)
+        lowCasChars.add(i.toLowerCase())
+    for (i in word.toLowerCase()) {
+        if (i !in lowCasChars)
+            return false
+    }
+    return true
+}
 
 /**
  * Средняя
@@ -221,7 +230,19 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    val enum = mutableMapOf<String, Int>()
+    for (i in list)
+        if (i in enum)
+            enum[i] = enum[i]!! + 1
+        else
+            enum[i] = 1
+    val ans = mutableMapOf<String, Int>()
+    for ((i) in enum)
+        if (enum[i]!! > 1)
+            ans[i] = enum[i]!!
+    return ans
+}
 
 /**
  * Средняя
