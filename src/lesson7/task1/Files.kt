@@ -3,6 +3,8 @@
 package lesson7.task1
 
 import java.io.File
+import java.lang.Integer.max
+import kotlin.math.min
 
 /**
  * Пример
@@ -32,8 +34,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
                 if (word.length + currentLineLength >= lineLength) {
                     outputStream.newLine()
                     currentLineLength = 0
-                }
-                else {
+                } else {
                     outputStream.write(" ")
                     currentLineLength++
                 }
@@ -243,15 +244,15 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
  *
  * Соответствующий выходной файл:
 <html>
-    <body>
-        <p>
-            Lorem ipsum <i>dolor sit amet</i>, consectetur <b>adipiscing</b> elit.
-            Vestibulum lobortis. <s>Est vehicula rutrum <i>suscipit</i></s>, ipsum <s>lib</s>ero <i>placerat <b>tortor</b></i>.
-        </p>
-        <p>
-            Suspendisse <s>et elit in enim tempus iaculis</s>.
-        </p>
-    </body>
+<body>
+<p>
+Lorem ipsum <i>dolor sit amet</i>, consectetur <b>adipiscing</b> elit.
+Vestibulum lobortis. <s>Est vehicula rutrum <i>suscipit</i></s>, ipsum <s>lib</s>ero <i>placerat <b>tortor</b></i>.
+</p>
+<p>
+Suspendisse <s>et elit in enim tempus iaculis</s>.
+</p>
+</body>
 </html>
  *
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
@@ -294,61 +295,61 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  *
  * Пример входного файла:
 ///////////////////////////////начало файла/////////////////////////////////////////////////////////////////////////////
-* Утка по-пекински
-    * Утка
-    * Соус
-* Салат Оливье
-    1. Мясо
-        * Или колбаса
-    2. Майонез
-    3. Картофель
-    4. Что-то там ещё
-* Помидоры
-* Фрукты
-    1. Бананы
-    23. Яблоки
-        1. Красные
-        2. Зелёные
+ * Утка по-пекински
+ * Утка
+ * Соус
+ * Салат Оливье
+1. Мясо
+ * Или колбаса
+2. Майонез
+3. Картофель
+4. Что-то там ещё
+ * Помидоры
+ * Фрукты
+1. Бананы
+23. Яблоки
+1. Красные
+2. Зелёные
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  *
  *
  * Соответствующий выходной файл:
 ///////////////////////////////начало файла/////////////////////////////////////////////////////////////////////////////
 <html>
-  <body>
-    <ul>
-      <li>
-        Утка по-пекински
-        <ul>
-          <li>Утка</li>
-          <li>Соус</li>
-        </ul>
-      </li>
-      <li>
-        Салат Оливье
-        <ol>
-          <li>Мясо
-            <ul>
-              <li>
-                  Или колбаса
-              </li>
-            </ul>
-          </li>
-          <li>Майонез</li>
-          <li>Картофель</li>
-          <li>Что-то там ещё</li>
-        </ol>
-      </li>
-      <li>Помидоры</li>
-      <li>
-        Яблоки
-        <ol>
-          <li>Красные</li>
-          <li>Зелёные</li>
-        </ol>
-      </li>
-    </ul>
-  </body>
+<body>
+<ul>
+<li>
+Утка по-пекински
+<ul>
+<li>Утка</li>
+<li>Соус</li>
+</ul>
+</li>
+<li>
+Салат Оливье
+<ol>
+<li>Мясо
+<ul>
+<li>
+Или колбаса
+</li>
+</ul>
+</li>
+<li>Майонез</li>
+<li>Картофель</li>
+<li>Что-то там ещё</li>
+</ol>
+</li>
+<li>Помидоры</li>
+<li>
+Яблоки
+<ol>
+<li>Красные</li>
+<li>Зелёные</li>
+</ol>
+</li>
+</ul>
+</body>
 </html>
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
@@ -375,23 +376,23 @@ fun markdownToHtml(inputName: String, outputName: String) {
  * Вывести в выходной файл процесс умножения столбиком числа lhv (> 0) на число rhv (> 0).
  *
  * Пример (для lhv == 19935, rhv == 111):
-   19935
-*    111
+19935
+ *    111
 --------
-   19935
+19935
 + 19935
 +19935
 --------
- 2212785
+2212785
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  * Нули в множителе обрабатывать так же, как и остальные цифры:
-  235
-*  10
+235
+ *  10
 -----
-    0
+0
 +235
 -----
- 2350
+2350
  *
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
@@ -405,21 +406,93 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  * Вывести в выходной файл процесс деления столбиком числа lhv (> 0) на число rhv (> 0).
  *
  * Пример (для lhv == 19935, rhv == 22):
-  19935 | 22
- -198     906
- ----
-    13
-    -0
-    --
-    135
-   -132
-   ----
-      3
+19935 | 22
+-198     906
+----
+13
+-0
+--
+135
+-132
+----
+3
 
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  *
  */
+fun diff(ddt: String, dsr: String, isFoE: Boolean): Pair<String, String> {
+    if (dsr.length > ddt.length) {
+        return Pair("0", ddt)
+    }
+    var varOriginal = ddt
+    while (varOriginal.first() == '0')
+        varOriginal = varOriginal.substring(1, ddt.length)
+    val fVar = varOriginal.substring(0, dsr.length).toInt()
+    val fExc = fVar % dsr.toInt()
+    val fQuot = fVar - fExc
+    return if ((fQuot == 0) && (dsr.length < ddt.length) && isFoE) {
+        val sVar = varOriginal.substring(0, dsr.length + 1).toInt()
+        val sExc = sVar % dsr.toInt()
+        val sQuot = sVar - sExc
+        Pair(sQuot.toString(), sExc.toString())
+    } else
+        Pair(fQuot.toString(), fExc.toString())
+}
+
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    var dividend = lhv.toString()
+    val divisor = rhv.toString()
+    val dividendL = dividend.length
+    var stPos = 0
+    var endPos = 0
+    var isBeginning = true
+    var prevExc = ""
+    var curNumbs = Pair<String, String>("", "")
+    while (endPos < (dividendL + 1)) {
+        if (!isBeginning) {
+            dividend = dividend.substring(max(curNumbs.first.length, curNumbs.second.length), dividend.length)
+            dividend = prevExc + dividend
+        }
+        curNumbs = diff(dividend, divisor, (isBeginning || (endPos == dividendL)))
+        val addSpNeeded = curNumbs.first.length <= (curNumbs.first.toInt() + curNumbs.second.toInt()).toString().length
+        var lDiv = prevExc
+        if (isBeginning) {
+            endPos = curNumbs.first.length + 1
+            if (addSpNeeded)
+                writer.write(" $lhv | $rhv\n")
+            else
+                writer.write("$lhv | $rhv\n")
+        } else {
+            for (i in 1..stPos)
+                writer.write(" ")
+            if (dividend.isNotEmpty())
+                lDiv += dividend[prevExc.length]
+            writer.write(lDiv + "\n")
+            endPos++
+        }
+        prevExc = curNumbs.second
+        for (i in 1..(endPos - curNumbs.first.length - 1))
+            writer.write(" ")
+        writer.write("-")
+        writer.write(curNumbs.first)
+        if (isBeginning) {
+            for (i in curNumbs.first.length..dividendL)
+                writer.write(" ")
+            isBeginning = false
+            writer.write("  " + lhv / rhv)
+        }
+        writer.write("\n")
+        for (i in 1..min(stPos, endPos - curNumbs.first.length - 1))
+            writer.write(" ")
+        for (i in min(stPos, endPos - curNumbs.first.length - 1)..(endPos - 1))
+            writer.write("-")
+        writer.write("\n")
+        stPos = endPos - prevExc.length
+    }
+    for (i in 0..(dividendL - prevExc.length))
+        writer.write(" ")
+    writer.write(prevExc)
+    writer.close()
 }
 
