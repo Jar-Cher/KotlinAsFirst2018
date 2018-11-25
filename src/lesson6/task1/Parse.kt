@@ -133,7 +133,7 @@ fun bestHighJump(jumps: String): Int {
             } else {
                 val isPlus = Regex("""^%*\+$""").find(res) != null
                 val isMinus = Regex("""^%*-?$""").find(res) != null
-                if (isPlus)
+                if ((isPlus) && (best < dist))
                     best = dist
                 else if ((!isMinus) && (!isPlus))
                     throw IllegalArgumentException("")

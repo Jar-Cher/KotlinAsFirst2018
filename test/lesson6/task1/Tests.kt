@@ -78,6 +78,7 @@ class Tests {
     @Test
     @Tag("Hard")
     fun bestHighJump() {
+        assertEquals(584705672, bestHighJump("1 %%- 1 + 584705672 %+ 207561865 %- 147483647 %+ 147483648 + 87822123 + 66818595 %%+ 155194562 %-"))
         assertEquals(230, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 %"))
         assertEquals(-1, bestHighJump(""))
         assertEquals(226, bestHighJump("226 +"))

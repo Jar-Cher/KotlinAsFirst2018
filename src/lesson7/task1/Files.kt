@@ -418,42 +418,20 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  *
  */
-fun diff(ddt: String, dsr: String, pExc: String, isFoE: Boolean): Pair<String, String> {
-    if (dsr.length > ddt.length) {
-        return Pair("0", ddt)
-    }
-    val fVar = if (!isFoE)
-        if (pExc.first() != '0')
-            ddt.substring(0, pExc.length + 1).toInt()
-        else
-            ddt.first().toInt() - '0'.toInt()
-    else
-        if (pExc.isNotEmpty())
-            ddt.toInt()
-        else
-            ddt.substring(0, dsr.length).toInt()
-    val fExc = fVar % dsr.toInt()
-    val fQuot = fVar - fExc
-    return if ((fQuot == 0) && (dsr.length < ddt.length) && isFoE) {
-        val sVar = ddt.substring(0, dsr.length + 1).toInt()
-        val sExc = sVar % dsr.toInt()
-        val sQuot = sVar - sExc
-        Pair(sQuot.toString(), sExc.toString())
-    } else
-        Pair(fQuot.toString(), fExc.toString())
-}
 
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    /*val writer = File(outputName).bufferedWriter()
+    val dividend = lhv.toString()
+    val divisor = lhv.toString()
+    val dividendL = dividend.length
+    if (dividend.length > dividendL) {
+        if (dividendL > 1) {
+            writer.write("$lhv | $rhv\n")
+        }
+        /*else
+        for*/
+    }
+    writer.close()*/
 }
 
-/*fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    val writer = File(outputName).bufferedWriter()
-    var dividend = lhv.toString()
-    val divisor = rhv.toString()
-    if (divisor.length > dividend.length) {
-
-    }
-    writer.close()
-}*/
 
