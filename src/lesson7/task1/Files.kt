@@ -471,7 +471,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         }
         else -> {
             writer.write("-$fLDivisor")
-            if (addS)
+            if ((addS) && (fLDivisor.length != dividendL))
                 writer.write(" ")
             val endPos = fLDivisor.length + 1
             for (i in endPos until dividendL)
