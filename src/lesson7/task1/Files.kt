@@ -3,6 +3,8 @@
 package lesson7.task1
 
 import java.io.File
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Пример
@@ -419,19 +421,99 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  *
  */
 
-fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    /*val writer = File(outputName).bufferedWriter()
-    val dividend = lhv.toString()
-    val divisor = lhv.toString()
-    val dividendL = dividend.length
-    if (dividend.length > dividendL) {
-        if (dividendL > 1) {
-            writer.write("$lhv | $rhv\n")
-        }
-        /*else
-        for*/
+fun nextDividable(dividend: String, divisor: String): String {
+    var fDividable = ""
+    val b = divisor.toInt()
+    for (i in dividend) {
+        fDividable += i
+        val a = fDividable.toInt()
+        if ((a / b) != 0)
+            return fDividable
     }
-    writer.close()*/
+    return fDividable
+}
+
+fun nextLDivisor(fDividable: String, divisor: String): String {
+    val a = fDividable.toInt()
+    val b = divisor.toInt()
+    return ((a / b) * b).toString()
+}
+
+fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
+    val writer = File(outputName).bufferedWriter()
+    var dividend = lhv.toString()
+    val divisor = rhv.toString()
+    val ans = lhv / rhv
+    val dividendL = dividend.length
+    val fDividable = nextDividable(dividend, divisor)
+    val fLDivisor = nextLDivisor(fDividable, divisor)
+    val addS = ((fLDivisor.length + 1) > fDividable.length)
+    if (addS)
+        writer.write(" ")
+    writer.write("$lhv | $rhv\n")
+    when {
+        lhv < rhv -> {
+            if (!addS)
+                for (i in 1..dividendL - 2)
+                    writer.write(" ")
+            writer.write("-0   $ans\n")
+            for (i in 1..max(dividendL, 2))
+                writer.write("-")
+            writer.write("\n")
+        }
+        dividendL == divisor.length -> {
+            writer.write("-")
+            writer.write((ans * rhv).toString())
+            writer.write("   $ans\n")
+            for (i in 0..dividendL)
+                writer.write("-")
+            writer.write("\n")
+        }
+        else -> {
+            writer.write("-$fLDivisor")
+            if (addS)
+                writer.write(" ")
+            val endPos = fLDivisor.length + 1
+            for (i in endPos until dividendL)
+                writer.write(" ")
+            writer.write("   $ans\n")
+            for (i in 0 until endPos)
+                writer.write("-")
+            writer.write("\n")
+            var exc = (fDividable.toInt() - fLDivisor.toInt()).toString()
+            var stPos = endPos - exc.length
+            dividend = dividend.substring(fDividable.length, dividendL)
+            for (curPos in endPos..dividendL) {
+                if (dividend == "")
+                    continue
+                for (i in 1..stPos)
+                    writer.write(" ")
+                var numbsInWork = exc
+                numbsInWork += dividend[0]
+                dividend = dividend.substring(1, dividend.length)
+                writer.write(numbsInWork + "\n")
+                val nLDivisor = nextLDivisor(numbsInWork, divisor)
+                for (i in 1 until curPos - nLDivisor.length + 1)
+                    writer.write(" ")
+                writer.write("-")
+                writer.write(nLDivisor + "\n")
+                for (i in 1..min(curPos - nLDivisor.length - 1, stPos) + 1)
+                    writer.write(" ")
+                for (i in min(curPos - nLDivisor.length - 1, stPos) until curPos)
+                    writer.write("-")
+                writer.write("\n")
+                exc = (numbsInWork.toInt() - nLDivisor.toInt()).toString()
+                stPos = curPos - exc.length + 1
+            }
+        }
+    }
+    val r = (lhv % rhv).toString()
+    if (addS)
+        writer.write(" ")
+    for (i in 1..dividendL - r.length)
+        writer.write(" ")
+    writer.write(r)
+    writer.close()
 }
 
 
