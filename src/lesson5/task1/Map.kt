@@ -207,11 +207,12 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
+fun listToLowerCase(list: List<Char>): Set<Char> = list.map { it.toLowerCase() }.toSet()
+
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    val lowCasChars = mutableListOf<Char>()
-    for (i in chars)
-        lowCasChars.add(i.toLowerCase())
-    for (i in word.toLowerCase()) {
+    val lowCasChars = listToLowerCase(chars)
+    val wordLC = word.toLowerCase()
+    for (i in wordLC) {
         if (i !in lowCasChars)
             return false
     }
@@ -230,18 +231,17 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
+
+fun calculateAns(map: Map<String, Int>): Map<String, Int> = map.filter { it.value > 1 }
+
 fun extractRepeats(list: List<String>): Map<String, Int> {
-    val enum = mutableMapOf<String, Int>()
+    val enumerate = mutableMapOf<String, Int>()
     for (i in list)
-        if (i in enum)
-            enum[i] = enum[i]!! + 1
+        if (i in enumerate)
+            enumerate[i] = enumerate[i]!! + 1
         else
-            enum[i] = 1
-    val ans = mutableMapOf<String, Int>()
-    for ((i) in enum)
-        if (enum[i]!! > 1)
-            ans[i] = enum[i]!!
-    return ans
+            enumerate[i] = 1
+    return calculateAns(enumerate)
 }
 
 /**

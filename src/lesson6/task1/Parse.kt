@@ -127,29 +127,20 @@ fun bestHighJump(jumps: String): Int {
     try {
         for (res in inp) {
             if ((id % 2) == 0) {
-                if ((res[0] == '+') || (res[0] == '-'))
+                if (Regex("""^\d*$""").find(res) == null)
                     throw IllegalArgumentException("")
                 dist = res.toInt()
             } else {
-                var status = "ok"
-                for (i in res) {
-                    if (status != "ok")
-                        return -1
-                    status = when (i) {
-                        '%' -> "ok"
-                        '+' -> "good"
-                        '-' -> "bad"
-                        else -> return -1
-                    }
-                }
-                if ((status == "good") && (dist >= best))
+                val isPlus = Regex("""^%*\+$""").find(res) != null
+                val isMinus = Regex("""^%*-?$""").find(res) != null
+                if (isPlus)
                     best = dist
+                else if ((!isMinus) && (!isPlus))
+                    throw IllegalArgumentException("")
             }
             id++
         }
-    } catch (e: NumberFormatException) {
-        return -1
-    } catch (err: StringIndexOutOfBoundsException) {
+    } catch (e: Throwable) {
         return -1
     }
     return best
@@ -165,28 +156,29 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val inp = expression.split(" ")
-    var id = 0
-    var sum = 0
-    var act = "+"
-    try {
-        for (i in inp) {
-            if ((id % 2) == 0) {
-                if ((i[0] == '+') || (i[0] == '-'))
-                    throw IllegalArgumentException("")
-                val num = i.toInt()
-                when (act) {
-                    "+" -> sum += num
-                    "-" -> sum -= num
-                    else -> throw IllegalArgumentException("")
-                }
-            } else
-                act = i
-            id++
-        }
-    } catch (e: NumberFormatException) {
+    if (!expression.matches(Regex("""\d+( [+-] \d+)*""")))
         throw IllegalArgumentException("")
-    } catch (err: StringIndexOutOfBoundsException) {
+    var sum = 0
+    var curAction = "+"
+    var firstRound = true
+    var i = 1
+    try {
+        val numbers = expression.split(Regex(""" [+-] """))
+        val actions = expression.split(Regex(""" ?\d+ ?"""))
+        for (curNumber in numbers) {
+            if (firstRound) {
+                firstRound = false
+            } else {
+                curAction = actions[i]
+                i++
+            }
+            when (curAction) {
+                "+" -> sum += curNumber.toInt()
+                "-" -> sum -= curNumber.toInt()
+                else -> throw IllegalArgumentException("")
+            }
+        }
+    } catch (e: Throwable) {
         throw IllegalArgumentException("")
     }
     return sum

@@ -3,8 +3,6 @@
 package lesson7.task1
 
 import java.io.File
-import java.lang.Integer.max
-import kotlin.math.min
 
 /**
  * Пример
@@ -420,18 +418,24 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  *
  */
-fun diff(ddt: String, dsr: String, isFoE: Boolean): Pair<String, String> {
+fun diff(ddt: String, dsr: String, pExc: String, isFoE: Boolean): Pair<String, String> {
     if (dsr.length > ddt.length) {
         return Pair("0", ddt)
     }
-    var varOriginal = ddt
-    while (varOriginal.first() == '0')
-        varOriginal = varOriginal.substring(1, ddt.length)
-    val fVar = varOriginal.substring(0, dsr.length).toInt()
+    val fVar = if (!isFoE)
+        if (pExc.first() != '0')
+            ddt.substring(0, pExc.length + 1).toInt()
+        else
+            ddt.first().toInt() - '0'.toInt()
+    else
+        if (pExc.isNotEmpty())
+            ddt.toInt()
+        else
+            ddt.substring(0, dsr.length).toInt()
     val fExc = fVar % dsr.toInt()
     val fQuot = fVar - fExc
     return if ((fQuot == 0) && (dsr.length < ddt.length) && isFoE) {
-        val sVar = varOriginal.substring(0, dsr.length + 1).toInt()
+        val sVar = ddt.substring(0, dsr.length + 1).toInt()
         val sExc = sVar % dsr.toInt()
         val sQuot = sVar - sExc
         Pair(sQuot.toString(), sExc.toString())
@@ -440,59 +444,16 @@ fun diff(ddt: String, dsr: String, isFoE: Boolean): Pair<String, String> {
 }
 
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
+    TODO()
+}
+
+/*fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     var dividend = lhv.toString()
     val divisor = rhv.toString()
-    val dividendL = dividend.length
-    var stPos = 0
-    var endPos = 0
-    var isBeginning = true
-    var prevExc = ""
-    var curNumbs = Pair<String, String>("", "")
-    while (endPos < (dividendL + 1)) {
-        if (!isBeginning) {
-            dividend = dividend.substring(max(curNumbs.first.length, curNumbs.second.length), dividend.length)
-            dividend = prevExc + dividend
-        }
-        curNumbs = diff(dividend, divisor, (isBeginning || (endPos == dividendL)))
-        val addSpNeeded = curNumbs.first.length <= (curNumbs.first.toInt() + curNumbs.second.toInt()).toString().length
-        var lDiv = prevExc
-        if (isBeginning) {
-            endPos = curNumbs.first.length + 1
-            if (addSpNeeded)
-                writer.write(" $lhv | $rhv\n")
-            else
-                writer.write("$lhv | $rhv\n")
-        } else {
-            for (i in 1..stPos)
-                writer.write(" ")
-            if (dividend.isNotEmpty())
-                lDiv += dividend[prevExc.length]
-            writer.write(lDiv + "\n")
-            endPos++
-        }
-        prevExc = curNumbs.second
-        for (i in 1..(endPos - curNumbs.first.length - 1))
-            writer.write(" ")
-        writer.write("-")
-        writer.write(curNumbs.first)
-        if (isBeginning) {
-            for (i in curNumbs.first.length..dividendL)
-                writer.write(" ")
-            isBeginning = false
-            writer.write("  " + lhv / rhv)
-        }
-        writer.write("\n")
-        for (i in 1..min(stPos, endPos - curNumbs.first.length - 1))
-            writer.write(" ")
-        for (i in min(stPos, endPos - curNumbs.first.length - 1)..(endPos - 1))
-            writer.write("-")
-        writer.write("\n")
-        stPos = endPos - prevExc.length
+    if (divisor.length > dividend.length) {
+
     }
-    for (i in 0..(dividendL - prevExc.length))
-        writer.write(" ")
-    writer.write(prevExc)
     writer.close()
-}
+}*/
 
