@@ -497,9 +497,13 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                     writer.write(" ")
                 writer.write("-")
                 writer.write(nLDivisor + "\n")
-                for (i in 1..min(curPos - nLDivisor.length - 1, stPos) + 1)
+                val numOfSp = if (numbsInWork.length == nLDivisor.length)
+                    stPos - 1
+                else
+                    stPos
+                for (i in 1..numOfSp)
                     writer.write(" ")
-                for (i in min(curPos - nLDivisor.length - 1, stPos) until curPos)
+                for (i in numOfSp..curPos)
                     writer.write("-")
                 writer.write("\n")
                 exc = (numbsInWork.toInt() - nLDivisor.toInt()).toString()
