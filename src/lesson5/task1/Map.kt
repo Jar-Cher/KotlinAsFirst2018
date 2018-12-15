@@ -207,10 +207,9 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun listToLowerCase(list: List<Char>): Set<Char> = list.map { it.toLowerCase() }.toSet()
 
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    val lowCasChars = listToLowerCase(chars)
+    val lowCasChars = chars.map { it.toLowerCase() }.toSet()
     val wordLC = word.toLowerCase()
     for (i in wordLC) {
         if (i !in lowCasChars)
@@ -232,16 +231,15 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
 
-fun calculateAns(map: Map<String, Int>): Map<String, Int> = map.filter { it.value > 1 }
 
 fun extractRepeats(list: List<String>): Map<String, Int> {
-    val enumerate = mutableMapOf<String, Int>()
+    val count = mutableMapOf<String, Int>()
     for (i in list)
-        if (i in enumerate)
-            enumerate[i] = enumerate[i]!! + 1
+        if (i in count)
+            count[i] = count[i]!! + 1
         else
-            enumerate[i] = 1
-    return calculateAns(enumerate)
+            count[i] = 1
+    return count.filter { it.value > 1 }
 }
 
 /**

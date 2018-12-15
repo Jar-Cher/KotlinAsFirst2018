@@ -133,9 +133,9 @@ fun bestHighJump(jumps: String): Int {
             } else {
                 val isPlus = Regex("""^%*\+$""").find(res) != null
                 val isMinus = Regex("""^%*-?$""").find(res) != null
-                if ((isPlus) && (best < dist))
+                if (isPlus && best < dist)
                     best = dist
-                else if ((!isMinus) && (!isPlus))
+                else if (!isMinus && !isPlus)
                     throw IllegalArgumentException("")
             }
             id++
@@ -158,30 +158,15 @@ fun bestHighJump(jumps: String): Int {
 fun plusMinus(expression: String): Int {
     if (!expression.matches(Regex("""\d+( [+-] \d+)*""")))
         throw IllegalArgumentException("")
-    var sum = 0
-    var curAction = "+"
-    var firstRound = true
-    var i = 1
-    try {
-        val numbers = expression.split(Regex(""" [+-] """))
-        val actions = expression.split(Regex(""" ?\d+ ?"""))
-        for (curNumber in numbers) {
-            if (firstRound) {
-                firstRound = false
-            } else {
-                curAction = actions[i]
-                i++
+    return Regex("\\d+|[+-] \\d+")
+            .findAll(expression)
+            .map {
+                Regex("""\s+""")
+                        .replace(it.value, "")
             }
-            when (curAction) {
-                "+" -> sum += curNumber.toInt()
-                "-" -> sum -= curNumber.toInt()
-                else -> throw IllegalArgumentException("")
+            .fold(0) { previousResult, element ->
+                previousResult + element.toInt()
             }
-        }
-    } catch (e: Throwable) {
-        throw IllegalArgumentException("")
-    }
-    return sum
 }
 
 /**
