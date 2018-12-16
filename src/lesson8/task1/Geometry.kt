@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson8.task1
 
 import lesson1.task1.sqr
@@ -6,6 +7,7 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+import kotlin.math.atan
 
 /**
  * Точка на плоскости
@@ -33,7 +35,8 @@ class Triangle private constructor(private val points: Set<Point>) {
 
     val c: Point get() = pointList[2]
 
-    constructor(a: Point, b: Point, c: Point): this(linkedSetOf(a, b, c))
+    constructor(a: Point, b: Point, c: Point) : this(linkedSetOf(a, b, c))
+
     /**
      * Пример: полупериметр
      */
@@ -103,7 +106,18 @@ data class Segment(val begin: Point, val end: Point) {
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    if (points.size < 2)
+        throw IllegalArgumentException("")
+    var maxSegment = Segment(points[0], points[1])
+    for (i in 0 until points.size)
+        for (j in i + 1 until points.size) {
+            val dist = points[i].distance(points[j])
+            if (dist >= maxSegment.begin.distance(maxSegment.end))
+                maxSegment = Segment(points[i], points[j])
+        }
+    return maxSegment
+}
 
 /**
  * Простая
@@ -124,7 +138,7 @@ class Line private constructor(val b: Double, val angle: Double) {
         require(angle >= 0 && angle < PI) { "Incorrect line angle: $angle" }
     }
 
-    constructor(point: Point, angle: Double): this(point.y * cos(angle) - point.x * sin(angle), angle)
+    constructor(point: Point, angle: Double) : this(point.y * cos(angle) - point.x * sin(angle), angle)
 
     /**
      * Средняя
@@ -157,7 +171,18 @@ fun lineBySegment(s: Segment): Line = TODO()
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line {
+    return if (a.x == b.x)
+        return Line(a, PI / 2)
+    else if (a.y <= b.y && a.x < b.x)
+        Line(a, atan((a.y - b.y) / (a.x - b.x)))
+    else if (a.y > b.y && a.x > b.x)
+        Line(b, atan((a.y - b.y) / (a.x - b.x)))
+    else if (a.y <= b.y && a.x > b.x)
+        Line(a, atan((a.y - b.y) / (a.x - b.x)) + PI)
+    else
+        Line(b, atan((a.y - b.y) / (a.x - b.x)) + PI)
+}
 
 /**
  * Сложная
