@@ -7,7 +7,9 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+import kotlin.math.abs
 import kotlin.math.atan
+import java.lang.Math.ulp
 
 /**
  * Точка на плоскости
@@ -173,7 +175,11 @@ fun lineBySegment(s: Segment): Line = TODO()
  */
 fun lineByPoints(a: Point, b: Point): Line {
     return if (a.x == b.x)
-        return Line(a, PI / 2)
+        Line(a, PI / 2)
+    else if (abs(a.y - b.y) < ulp(10.0) && a.y >= b.y)
+        Line(b, 0.0)
+    else if (abs(a.y - b.y) < ulp(10.0) && a.y < b.y)
+        Line(a, 0.0)
     else if (a.y <= b.y && a.x < b.x)
         Line(a, atan((a.y - b.y) / (a.x - b.x)))
     else if (a.y >= b.y && a.x > b.x)
@@ -189,7 +195,10 @@ fun lineByPoints(a: Point, b: Point): Line {
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    //val m = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
+    TODO()
+}
 
 /**
  * Средняя

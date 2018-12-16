@@ -170,6 +170,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun lineByPoints() {
+        assertApproxEquals(Line(Point(0.28272594701450027, -5e-324), 0.0), lineByPoints(Point(0.28272594701450027, -5e-324), Point(0.0, 0.0)))
         assertApproxEquals(Line(Point(0.1662018467514097, -632.0), 0.0), lineByPoints(Point(0.8071799741640913, -632.0), Point(0.1662018467514097, -632.0)))
         assertApproxEquals(Line(Point(1.0, 1.0), (3 * PI) / 4), lineByPoints(Point(1.0, 1.0), Point(-1.0, 3.0)))
         assertApproxEquals(Line(Point(0.0, 0.0), PI / 2), lineByPoints(Point(0.0, 0.0), Point(0.0, 2.0)))
