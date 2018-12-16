@@ -295,10 +295,10 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     val combinations = mutableMapOf<Pair<Set<String>, Int>, Pair<Set<String>, Int>>()
     val answers = mutableMapOf<Pair<Set<String>, Int>, Set<String>>()
-    for (i in 0..capacity) {
+    /*for (i in 0..capacity) {
         combinations[Pair(emptySet(), i)] = Pair(emptySet(), 0)
         answers[Pair(emptySet(), i)] = emptySet()
-    }
+    }*/
     val curList = mutableListOf<Set<String>>()
     curList.add(emptySet())
     var i = 0
@@ -307,21 +307,24 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         i++
         for (curCapacity in 0..capacity) {
             if (treasures[name]!!.first > curCapacity) {
-                combinations[Pair(curList[i], curCapacity)] = combinations[Pair(curList[i - 1], curCapacity)]!!
-                answers[Pair(curList[i], curCapacity)] = answers[Pair(curList[i - 1], curCapacity)]!!
+                combinations[Pair(curList[i], curCapacity)] =
+                        combinations.getOrDefault(Pair(curList[i - 1], curCapacity), Pair(emptySet(), 0))
+                answers[Pair(curList[i], curCapacity)] =
+                        answers.getOrDefault(Pair(curList[i - 1], curCapacity), emptySet())
             } else {
-                val prevValue = combinations[Pair(curList[i - 1], curCapacity)]!!
-                val possValue = combinations[Pair(curList[i - 1], curCapacity - treasures[name]!!.first)]!!
+                val prevValue = combinations.getOrDefault(Pair(curList[i - 1], curCapacity), Pair(emptySet(), 0))
+                val possValue = combinations.getOrDefault(Pair(curList[i - 1], curCapacity - treasures[name]!!.first), Pair(emptySet(), 0))
                 val possAns = Pair(possValue.first + name, possValue.second + treasures[name]!!.second)
                 if (possAns.second < prevValue.second) {
                     combinations[Pair(curList[i], curCapacity)] = prevValue
-                    answers[Pair(curList[i], curCapacity)] = answers[Pair(curList[i - 1], curCapacity)]!!
+                    answers[Pair(curList[i], curCapacity)] = answers.getOrDefault(Pair(curList[i - 1], curCapacity), emptySet())
                 } else {
                     combinations[Pair(curList[i], curCapacity)] = possAns
-                    answers[Pair(curList[i], curCapacity)] = answers[Pair(curList[i - 1], curCapacity - treasures[name]!!.first)]!! + name
+                    answers[Pair(curList[i], curCapacity)] =
+                            answers.getOrDefault(Pair(curList[i - 1], curCapacity - treasures[name]!!.first), emptySet()) + name
                 }
             }
         }
     }
-    return answers[Pair(curList[i], capacity)]!!
+    return answers.getOrDefault(Pair(curList[i], capacity), emptySet())
 }
