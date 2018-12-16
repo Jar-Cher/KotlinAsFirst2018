@@ -176,9 +176,9 @@ fun lineByPoints(a: Point, b: Point): Line {
         return Line(a, PI / 2)
     else if (a.y <= b.y && a.x < b.x)
         Line(a, atan((a.y - b.y) / (a.x - b.x)))
-    else if (a.y > b.y && a.x > b.x)
+    else if (a.y >= b.y && a.x > b.x)
         Line(b, atan((a.y - b.y) / (a.x - b.x)))
-    else if (a.y <= b.y && a.x > b.x)
+    else if (a.y < b.y && a.x > b.x)
         Line(a, atan((a.y - b.y) / (a.x - b.x)) + PI)
     else
         Line(b, atan((a.y - b.y) / (a.x - b.x)) + PI)
